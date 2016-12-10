@@ -10,6 +10,16 @@ var createBrowserHistory = require('history/lib/createBrowserHistory');
 
 var h = require('./helpers');
 
+// Firebase
+var Rebase = require('re-base');
+var base = Rebase.createClass({
+    apiKey: "AIzaSyBQWAoNrlGUleMrthQrFCJBwfWNDshr0x0",
+    authDomain: "catch-of-the-day-e904b.firebaseapp.com",
+    databaseURL: "https://catch-of-the-day-e904b.firebaseio.com",
+    storageBucket: "catch-of-the-day-e904b.appspot.com",
+    messagingSenderId: "435226083365"
+  });
+
 /*
   App
 */
@@ -19,6 +29,12 @@ var App = React.createClass({
       fishes: {},
       order: {}
     }
+  },
+  componentDidMount: function(){
+    base.syncState(this.props.params.storeId + '/fishes', {
+      context : this,
+      state : 'fishes'
+    });
   },
   addToOrder: function(key){
     this.state.order[key] = this.state.order[key] + 1 || 1;
